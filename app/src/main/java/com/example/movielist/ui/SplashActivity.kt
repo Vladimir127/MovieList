@@ -1,9 +1,10 @@
-package com.example.movielist
+package com.example.movielist.ui
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
+import com.example.movielist.R
 
 class SplashActivity : AppCompatActivity() {
     var handler = Handler()
