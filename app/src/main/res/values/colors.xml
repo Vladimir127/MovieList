@@ -13,5 +13,6 @@
     <color name="orange_600">#fb8c00</color>
     <color name="orange_600_dark">#c25e00</color>
 
-    <color name="recycler_view_background">#fff3e0</color>
+    <color name="recycler_view_background_orange">#fff3e0</color>
+    <color name="recycler_view_background_grey">#eeeeee</color>
 </resources>

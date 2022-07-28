@@ -4,4 +4,6 @@
     <dimen name="list_item_margin_half">6dp</dimen>
     <dimen name="card_elevation">5dp</dimen>
     <dimen name="list_image_size">92dp</dimen>
+    <dimen name="icon_margin">16dp</dimen>
+    <dimen name="icon_size">150dp</dimen>
 </resources>

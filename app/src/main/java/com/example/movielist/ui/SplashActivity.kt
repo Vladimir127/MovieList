@@ -18,7 +18,7 @@ class SplashActivity : AppCompatActivity() {
         handler.postDelayed({
             startActivity(Intent(this@SplashActivity, ListActivity::class.java))
             finish()
-        }, 1000)
+        }, 3000)
     }
 
     override fun onDestroy() {
