@@ -26,7 +26,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.ListActivity"
+            android:name=".ui.list.ListActivity"
             android:exported="true">
         </activity>
 

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.ListActivity">
+    tools:context=".ui.list.ListActivity">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/app_bar_layout"
@@ -27,7 +27,8 @@
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@id/app_bar_layout"
-        tools:listitem="@layout/item_movie" />
+        tools:listitem="@layout/item_movie"
+        android:background="@color/recycler_view_background"/>
 
     <ProgressBar
         android:id="@+id/progress_bar"

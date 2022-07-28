@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import com.example.movielist.R
+import com.example.movielist.ui.list.ListActivity
 
 class SplashActivity : AppCompatActivity() {
     var handler = Handler()

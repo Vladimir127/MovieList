@@ -1,4 +1,4 @@
-package com.example.movielist.domain
+package com.example.movielist.domain.repos
 
 import com.example.movielist.domain.entities.MovieResponse
 import retrofit2.Call
