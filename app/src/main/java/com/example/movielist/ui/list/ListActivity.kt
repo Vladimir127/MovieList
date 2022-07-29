@@ -6,15 +6,16 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.movielist.MyApplication
 import com.example.movielist.R
+import com.example.movielist.app
 import com.example.movielist.domain.repos.MoviesRepository
-import com.example.movielist.domain.repos.WebMoviesRepositoryImpl
+import javax.inject.Inject
 
 class ListActivity : AppCompatActivity() {
 
-    private val app: MyApplication by lazy { application as MyApplication }
-    private lateinit var moviesRepository: MoviesRepository
+    @Inject
+    lateinit var moviesRepository: MoviesRepository
+
     private lateinit var scrollListener: RecyclerViewLoadMoreScroll
     private var offset = 0
 
@@ -24,11 +25,12 @@ class ListActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_list)
 
+        app.di.inject(this)
+
         initToolbar()
 
         initRecyclerView()
 
-        moviesRepository = WebMoviesRepositoryImpl(app.retrofit)
         moviesRepository.getMovies(
             onSuccess = {
                 adapter.setData(it.results)
