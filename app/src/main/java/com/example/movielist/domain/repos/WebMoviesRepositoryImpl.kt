@@ -5,7 +5,6 @@ import com.example.movielist.domain.entities.MovieResponse
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import retrofit2.Retrofit
 
 /** Репозиторий, получающий данные из API с помощью Retrofit */
 class WebMoviesRepositoryImpl(private val api: MoviesApi) : MoviesRepository {

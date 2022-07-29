@@ -7,12 +7,15 @@ import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.movielist.R
-import com.example.movielist.di.inject
+import com.example.movielist.app
 import com.example.movielist.domain.repos.MoviesRepository
+import javax.inject.Inject
 
 class ListActivity : AppCompatActivity() {
 
-    private val moviesRepository: MoviesRepository by inject()
+    @Inject
+    lateinit var moviesRepository: MoviesRepository
+
     private lateinit var scrollListener: RecyclerViewLoadMoreScroll
     private var offset = 0
 
@@ -21,6 +24,8 @@ class ListActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_list)
+
+        app.di.inject(this)
 
         initToolbar()
 
