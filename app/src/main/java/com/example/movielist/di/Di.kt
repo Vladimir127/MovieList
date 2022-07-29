@@ -25,8 +25,12 @@ object Di {
     }
 }
 
-inline fun <reified T> inject(): T {
+inline fun <reified T> get(): T {
     if (T::class.java == MoviesRepository::class.java) {
         return Di.moviesRepository as T
     } else throw IllegalArgumentException("Нет такого класса в Di")
+}
+
+inline fun <reified T> inject(): Lazy<T> = lazy {
+    return@lazy get<T>()
 }
