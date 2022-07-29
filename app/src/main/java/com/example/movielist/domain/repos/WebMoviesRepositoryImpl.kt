@@ -16,9 +16,10 @@ class WebMoviesRepositoryImpl(private val retrofit: Retrofit) :
 
     override fun getMovies(
         onSuccess: (MovieResponse) -> Unit,
-        onError: (Throwable) -> Unit
+        onError: (Throwable) -> Unit,
+        offset: Int
     ) {
-        api.getMovies(BuildConfig.MOVIES_API_KEY).enqueue(object : Callback<MovieResponse> {
+        api.getMovies(BuildConfig.MOVIES_API_KEY, offset).enqueue(object : Callback<MovieResponse> {
             override fun onResponse(
                 call: Call<MovieResponse>,
                 response: Response<MovieResponse>
