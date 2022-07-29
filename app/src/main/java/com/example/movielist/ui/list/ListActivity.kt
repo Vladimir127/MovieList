@@ -7,12 +7,12 @@ import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.movielist.R
-import com.example.movielist.di.Di
+import com.example.movielist.di.inject
 import com.example.movielist.domain.repos.MoviesRepository
 
 class ListActivity : AppCompatActivity() {
 
-    private val moviesRepository: MoviesRepository = Di.inject()
+    private val moviesRepository: MoviesRepository = inject()
     private lateinit var scrollListener: RecyclerViewLoadMoreScroll
     private var offset = 0
 
