@@ -12,7 +12,7 @@ import com.example.movielist.domain.repos.MoviesRepository
 
 class ListActivity : AppCompatActivity() {
 
-    private val moviesRepository: MoviesRepository by lazy { Di.moviesRepository }
+    private val moviesRepository: MoviesRepository = Di.inject()
     private lateinit var scrollListener: RecyclerViewLoadMoreScroll
     private var offset = 0
 

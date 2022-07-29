@@ -23,4 +23,10 @@ object Di {
     val moviesRepository: MoviesRepository by lazy {
         WebMoviesRepositoryImpl(api)
     }
+
+    inline fun <reified T> inject(): T {
+        if (T::class.java == MoviesRepository::class.java) {
+            return moviesRepository as T
+        } else throw IllegalArgumentException("Нет такого класса в Di")
+    }
 }
