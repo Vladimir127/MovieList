@@ -8,6 +8,7 @@ interface MoviesRepository {
     /** Возвращает список фильмов */
     fun getMovies(
         onSuccess: (MovieResponse) -> Unit,
-        onError: (Throwable) -> Unit
+        onError: (Throwable) -> Unit,
+        offset: Int = 0
     )
 }
