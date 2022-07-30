@@ -15,11 +15,6 @@ class MovieAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private var movies: ArrayList<MovieEntity?> = ArrayList()
 
-    fun setData(data: List<MovieEntity>) {
-        this.movies = ArrayList(data)
-        notifyDataSetChanged()
-    }
-
     fun addData(data: List<MovieEntity>) {
         this.movies.addAll(data)
         notifyItemRangeInserted(movies.size - 1, data.size)
@@ -51,7 +46,7 @@ class MovieAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         // Привязку выполняем только в том случае, если это обычный пункт
         // списка, так как в пункте с колёсиком привязывать нечего
         if (holder.itemViewType == Constant.VIEW_TYPE_ITEM) {
-            (holder as MovieViewHolder).bind(movies[position])
+            movies[position]?.let { (holder as MovieViewHolder).bind(it) }
         }
     }
 
@@ -88,12 +83,12 @@ class MovieAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         private val descriptionTextView = itemView.findViewById<TextView>(R.id.description_text_view)
         private val imageView = itemView.findViewById<ImageView>(R.id.image_view)
 
-        fun bind(movieEntity: MovieEntity?) {
-            nameTextView.text = movieEntity?.name
-            descriptionTextView.text = movieEntity?.description
+        fun bind(movieEntity: MovieEntity) {
+            nameTextView.text = movieEntity.name
+            descriptionTextView.text = movieEntity.description
 
             Glide.with(itemView)
-                .load(movieEntity?.multimedia?.src)
+                .load(movieEntity.multimedia.src)
                 .placeholder(R.drawable.movie_placeholder)
                 .into(imageView)
         }

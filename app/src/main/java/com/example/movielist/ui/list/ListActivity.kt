@@ -33,18 +33,7 @@ class ListActivity : AppCompatActivity() {
 
         initRecyclerView()
 
-        val progressBar = findViewById<ProgressBar>(R.id.progress_bar)
-        progressBar.visibility = View.VISIBLE
-
-        moviesRepository.getMovies(
-            onSuccess = {
-                progressBar.visibility = View.GONE
-                adapter.setData(it.results)
-            },
-            onError = {
-                progressBar.visibility = View.GONE
-                Toast.makeText(this, it.message, Toast.LENGTH_SHORT).show()
-            })
+        loadData()
     }
 
     private fun initToolbar() {
@@ -63,6 +52,21 @@ class ListActivity : AppCompatActivity() {
         scrollListener = RecyclerViewLoadMoreScroll(layoutManager)
         scrollListener.setOnLoadMoreListener { loadMoreData() }
         recyclerView.addOnScrollListener(scrollListener)
+    }
+
+    private fun loadData() {
+        val progressBar = findViewById<ProgressBar>(R.id.progress_bar)
+        progressBar.visibility = View.VISIBLE
+
+        moviesRepository.getMovies(
+            onSuccess = {
+                progressBar.visibility = View.GONE
+                adapter.addData(it.results)
+            },
+            onError = {
+                progressBar.visibility = View.GONE
+                Toast.makeText(this, it.message, Toast.LENGTH_SHORT).show()
+            })
     }
 
     private fun loadMoreData() {
