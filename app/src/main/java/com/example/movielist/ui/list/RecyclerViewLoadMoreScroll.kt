@@ -7,8 +7,8 @@ import androidx.recyclerview.widget.RecyclerView
  * Обработчик прокрутки RecyclerView, отвечающий за подгрузку записей по
  * мере прокрутки
  */
-class RecyclerViewLoadMoreScroll(private var layoutManager: LinearLayoutManager)
-    : RecyclerView.OnScrollListener() {
+class RecyclerViewLoadMoreScroll(private var layoutManager: LinearLayoutManager) :
+    RecyclerView.OnScrollListener() {
 
     /**
      * Количество последних объектов в списке, при достижении которых
@@ -17,9 +17,9 @@ class RecyclerViewLoadMoreScroll(private var layoutManager: LinearLayoutManager)
     private var visibleThreshold = 5
 
     /**
-     * Интерфейс с методом обратного вызова для подгрузки объектов
+     * Функциональный интерфейс с методом обратного вызова для подгрузки объектов
      */
-    private lateinit var mOnLoadMoreListener: OnLoadMoreListener
+    private lateinit var mOnLoadMoreListener: () -> Unit
     private var isLoading: Boolean = false
     private var lastVisibleItem: Int = 0
     private var totalItemCount: Int = 0
@@ -32,7 +32,7 @@ class RecyclerViewLoadMoreScroll(private var layoutManager: LinearLayoutManager)
         return isLoading
     }
 
-    fun setOnLoadMoreListener(mOnLoadMoreListener: OnLoadMoreListener) {
+    fun setOnLoadMoreListener(mOnLoadMoreListener: () -> Unit) {
         this.mOnLoadMoreListener = mOnLoadMoreListener
     }
 
@@ -57,7 +57,7 @@ class RecyclerViewLoadMoreScroll(private var layoutManager: LinearLayoutManager)
         // элементов (например, 20). Если больше или равно, как в нашем
         // случае, запускаем загрузку
         if (!isLoading && totalItemCount <= lastVisibleItem + visibleThreshold) {
-            mOnLoadMoreListener.onLoadMore()
+            mOnLoadMoreListener.invoke()
             isLoading = true
         }
     }

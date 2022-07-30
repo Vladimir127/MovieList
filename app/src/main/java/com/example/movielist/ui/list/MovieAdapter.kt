@@ -9,16 +9,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.movielist.R
 import com.example.movielist.domain.entities.MovieEntity
-import com.example.movielist.ui.Constant
+
+const val VIEW_TYPE_ITEM = 0
+const val VIEW_TYPE_LOADING = 1
 
 class MovieAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private var movies: ArrayList<MovieEntity?> = ArrayList()
-
-    fun setData(data: List<MovieEntity>) {
-        this.movies = ArrayList(data)
-        notifyDataSetChanged()
-    }
 
     fun addData(data: List<MovieEntity>) {
         this.movies.addAll(data)
@@ -32,7 +29,7 @@ class MovieAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         // когда мы пролистываем список до конца. Последний не содержит
         // никаких данных, поэтому таким хитрым способом мы и определяем, что
         // это пункт именно такого типа.
-        return if (viewType == Constant.VIEW_TYPE_ITEM) {
+        return if (viewType == VIEW_TYPE_ITEM) {
             MovieViewHolder(
                 LayoutInflater.from(parent.context)
                     .inflate(R.layout.item_movie, parent, false)
@@ -50,8 +47,8 @@ class MovieAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         // Привязку выполняем только в том случае, если это обычный пункт
         // списка, так как в пункте с колёсиком привязывать нечего
-        if (holder.itemViewType == Constant.VIEW_TYPE_ITEM) {
-            (holder as MovieViewHolder).bind(movies[position])
+        if (holder.itemViewType == VIEW_TYPE_ITEM) {
+            movies[position]?.let { (holder as MovieViewHolder).bind(it) }
         }
     }
 
@@ -61,9 +58,9 @@ class MovieAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     override fun getItemViewType(position: Int): Int {
         return if (movies[position] == null) {
-            Constant.VIEW_TYPE_LOADING
+            VIEW_TYPE_LOADING
         } else {
-            Constant.VIEW_TYPE_ITEM
+            VIEW_TYPE_ITEM
         }
     }
 
@@ -88,12 +85,12 @@ class MovieAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         private val descriptionTextView = itemView.findViewById<TextView>(R.id.description_text_view)
         private val imageView = itemView.findViewById<ImageView>(R.id.image_view)
 
-        fun bind(movieEntity: MovieEntity?) {
-            nameTextView.text = movieEntity?.name
-            descriptionTextView.text = movieEntity?.description
+        fun bind(movieEntity: MovieEntity) {
+            nameTextView.text = movieEntity.name
+            descriptionTextView.text = movieEntity.description
 
             Glide.with(itemView)
-                .load(movieEntity?.multimedia?.src)
+                .load(movieEntity.multimedia.src)
                 .placeholder(R.drawable.movie_placeholder)
                 .into(imageView)
         }
