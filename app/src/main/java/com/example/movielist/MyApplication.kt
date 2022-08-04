@@ -2,14 +2,12 @@ package com.example.movielist
 
 import android.app.Application
 import android.content.Context
-import com.example.movielist.di.DaggerMyComponent
-import com.example.movielist.di.MyComponent
-import com.example.movielist.di.MyModule
+import com.example.movielist.di.AppComponent
+import com.example.movielist.di.DaggerAppComponent
 
 class MyApplication : Application() {
-    val di: MyComponent by lazy {
-        DaggerMyComponent.builder()
-            .myModule(MyModule())
+    val di: AppComponent by lazy {
+        DaggerAppComponent.builder()
             .build()
     }
 }

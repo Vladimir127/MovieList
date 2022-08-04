@@ -18,6 +18,9 @@ class ListActivity : AppCompatActivity() {
     @Inject
     lateinit var moviesRepository: MoviesRepository
 
+    @Inject
+    lateinit var viewModel: MoviesListViewModel
+
     private lateinit var scrollListener: RecyclerViewLoadMoreScroll
     private var offset = 0
 
@@ -33,7 +36,9 @@ class ListActivity : AppCompatActivity() {
 
         initRecyclerView()
 
-        loadData()
+        initLiveData()
+
+        viewModel.onLoadList(offset)
     }
 
     private fun initToolbar() {
@@ -50,37 +55,43 @@ class ListActivity : AppCompatActivity() {
         recyclerView.layoutManager = layoutManager
 
         scrollListener = RecyclerViewLoadMoreScroll(layoutManager)
-        scrollListener.setOnLoadMoreListener { loadMoreData() }
+        scrollListener.setOnLoadMoreListener {
+            offset += 20
+            viewModel.onLoadList(offset)
+        }
         recyclerView.addOnScrollListener(scrollListener)
     }
 
-    private fun loadData() {
+    private fun initLiveData() {
         val progressBar = findViewById<ProgressBar>(R.id.progress_bar)
-        progressBar.visibility = View.VISIBLE
 
-        moviesRepository.getMovies(
-            onSuccess = {
-                progressBar.visibility = View.GONE
-                adapter.addData(it.results)
-            },
-            onError = {
-                progressBar.visibility = View.GONE
-                Toast.makeText(this, it.message, Toast.LENGTH_SHORT).show()
-            })
-    }
+        viewModel.moviesList.observe(this) {
+            adapter.addData(it.results)
+        }
 
-    private fun loadMoreData() {
-        adapter.addLoadingView()
+        viewModel.progressLiveData.observe(this) { isLoading ->
 
-        offset += 20
-        moviesRepository.getMovies(offset = offset,
-            onSuccess = {
-                adapter.removeLoadingView()
-                adapter.addData(it.results)
-                scrollListener.setLoaded()
-            },
-            onError = {
-                Toast.makeText(this, it.message, Toast.LENGTH_SHORT).show()
-            })
+            // Значение флага загрузки мы можем получить в двух случаях: когда
+            // загружается первая страница данных и когда загружаются последующие.
+            // В первом случае мы включаем/выключаем ProgressBar, находящийся
+            // по центру экрана, а во втором - ProgressBar, находящийся внизу
+            // списка. Какой сейчас случай, мы определяем по значению поля offset:
+            // если оно равно 0, значит, загружается первая страница. Если оно
+            // равно 20 или больше, значит, загружаются последующие.
+            if (offset == 0) {
+                progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
+            } else {
+                if (isLoading) {
+                    adapter.addLoadingView()
+                } else {
+                    adapter.removeLoadingView()
+                    scrollListener.setLoaded()
+                }
+            }
+        }
+
+        viewModel.errorLiveData.observe(this) {
+            Toast.makeText(this@ListActivity, it.message, Toast.LENGTH_SHORT).show()
+        }
     }
 }
