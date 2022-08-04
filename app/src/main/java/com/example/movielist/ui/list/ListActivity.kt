@@ -18,7 +18,7 @@ class ListActivity : AppCompatActivity() {
     @Inject
     lateinit var moviesRepository: MoviesRepository
 
-    //@Inject
+    @Inject
     lateinit var viewModel: MoviesListViewModel
 
     private lateinit var scrollListener: RecyclerViewLoadMoreScroll
@@ -64,8 +64,6 @@ class ListActivity : AppCompatActivity() {
 
     private fun initLiveData() {
         val progressBar = findViewById<ProgressBar>(R.id.progress_bar)
-
-        viewModel = MoviesListViewModel(moviesRepository)
 
         viewModel.moviesList.observe(this) {
             adapter.addData(it.results)

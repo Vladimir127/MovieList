@@ -7,11 +7,12 @@ import dagger.Module
 import dagger.Provides
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import javax.inject.Named
 
 private const val BASE_URL = "https://api.nytimes.com/svc/movies/v2/"
 
 @Module
-class MyModule {
+class DbModule {
 
     @Provides
     fun provideRetrofit() : Retrofit = Retrofit.Builder()
@@ -23,6 +24,7 @@ class MyModule {
     fun provideApi (retrofit: Retrofit) : MoviesApi =
         retrofit.create(MoviesApi::class.java)
 
+    //@Named("moviesRepo")
     @Provides
     fun provideMoviesRepo(api: MoviesApi): MoviesRepository =
         WebMoviesRepositoryImpl(api)
